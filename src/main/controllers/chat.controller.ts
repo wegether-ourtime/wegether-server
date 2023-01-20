@@ -7,13 +7,14 @@ import {
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../services';
+import { ChatService } from '../services/chat.service';
 
-@ApiTags('user')
+@ApiTags('chat')
 @ApiBearerAuth()
-@Controller('user')
+@Controller('chat')
 @UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
-export class UserController {
-  constructor(private userService: UserService) {}
+export class ChatController {
+  constructor(private chatService: ChatService) {}
 }
