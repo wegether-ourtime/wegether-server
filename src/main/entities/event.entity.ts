@@ -1,3 +1,4 @@
+import { EventStatus } from 'src/common/enums/event-status.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -15,6 +16,8 @@ export class Event {
   eventName: string;
   @Column({ name: ' eventDetail', nullable: true })
   eventDetail: string;
+  @Column({ name: 'status', default: EventStatus })
+  status: EventStatus;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -2,9 +2,9 @@ import { Expose } from 'class-transformer';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { QueryDto } from 'src/common/app/query';
 
-export class UserDto {
+export class EventDto {
   @Expose()
-  userId: string;
+  eventId: string;
 
   @Expose()
   createdAt: Date;
@@ -12,20 +12,20 @@ export class UserDto {
   updatedAt: Date;
 }
 
-export class CreateUserDto extends OmitType(UserDto, [
-  'userId',
+export class CreateEventDto extends OmitType(EventDto, [
+  'eventId',
   'createdAt',
   'updatedAt',
 ]) {
   @Expose()
   @ApiProperty({ required: true })
-  userId: string;
+  eventId: string;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateEventDto extends PartialType(CreateEventDto) {
   @Expose()
   @ApiProperty({ required: true })
-  userId: string;
+  eventId: string;
 }
 
-export class QueryUserDto extends QueryDto {}
+export class QueryEventDto extends QueryDto {}

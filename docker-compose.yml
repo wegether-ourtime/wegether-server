@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: wegether_postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=wegether_ourtime
+      - POSTGRES_USER=wegether
+      - POSTGRES_PASSWORD=0urT1me
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - ./wegether-backend/db/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+  redis:
+    container_name: wegether_redis
+    image: redis
+    # environment:
+    #   - REDIS_DB=wegether
+    #   - REDIS_USERNAME=redis
+    #   - REDIS_PASSWORD=12qwaszX
+    ports:
+      - "6379:6379"
+  # backend:
+  #   container_name: wegether-backend
+  #   build: ./wegether-backend
+  #   volumes:
+  #     - './wegether-backend/:/app'
+  #     - '/wegether-backend/app/node_modules'
+  #   ports:
+  #     - 4002:4002
+  #   depends_on:
+  #     - postgres
+  #     - mongo
+  #   stdin_open: true
+  #   command: npm start
+  #   environment:
+  #     - DB_POSTGRES_HOST=postgres
+  #     - DB_POSTGRES_PORT=5432
+  #     - DB_POSTGRES_USER=postgres
+  #     - DB_POSTGRES_PASSWORD=postgres
+  #     - DB_POSTGRES_NAME=wegether
+  #     - DB_MONGO_URL=mongodb://mongo:mongo@mongo:27017
+  #     # - NODE_ENV

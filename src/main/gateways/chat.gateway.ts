@@ -2,9 +2,12 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
+  SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { CreateChatDto } from '../dto';
+import { ChatService } from '../services';
 
 @WebSocketGateway({
   path: '/chat',
@@ -13,18 +16,22 @@ import { Server, Socket } from 'socket.io';
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
+  constructor(private chatService: ChatService) {}
+
   afterInit(server: Server) {
-    console.log(server);
     //Do stuffs
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Disconnected: ${client.id}`);
     //Do stuffs
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Connected ${client.id}`);
     //Do stuffs
+  }
+
+  @SubscribeMessage('new-message')
+  async newMessage(dto: CreateChatDto) {
+    await this.chatService.create(dto);
   }
 }
