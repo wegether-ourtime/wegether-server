@@ -15,11 +15,15 @@ export class EventService {
     return await this.eventRepository.find({ where: {} });
   }
 
+  async findOne(id: string) {
+    return await this.eventRepository.findOne({ where: {} });
+  }
+
   async create(dto: CreateEventDto) {
     return await this.eventRepository.save(dto);
   }
 
-  async update(dto: UpdateEventDto) {
+  async update(id: string, dto: UpdateEventDto) {
     return await this.eventRepository.save(dto);
   }
 

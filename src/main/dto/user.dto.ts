@@ -16,11 +16,7 @@ export class CreateUserDto extends OmitType(UserDto, [
   'userId',
   'createdAt',
   'updatedAt',
-]) {
-  @Expose()
-  @ApiProperty({ required: true })
-  userId: string;
-}
+]) {}
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @Expose()

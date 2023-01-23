@@ -16,11 +16,7 @@ export class CreateCategoryDto extends OmitType(CategoryDto, [
   'categoryId',
   'createdAt',
   'updatedAt',
-]) {
-  @Expose()
-  @ApiProperty({ required: true })
-  categoryId: string;
-}
+]) {}
 
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
   @Expose()
