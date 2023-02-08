@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateEventDto, UpdateEventDto } from '../dto';
+import { CreateEventDto, QueryEventDto, UpdateEventDto } from '../dto';
 import { Event } from '../entities';
 
 @Injectable()
@@ -11,12 +11,21 @@ export class EventService {
     private eventRepository: Repository<Event>,
   ) {}
 
-  async find() {
-    return await this.eventRepository.find({ where: {} });
+  async find(query: QueryEventDto) {
+    const { categoriesId } = query;
+    const qb = this.eventRepository
+      .createQueryBuilder('event')
+      .leftJoinAndSelect('event.eventCategory', 'eventCategory')
+      .leftJoinAndSelect('eventCategory.category', 'category');
+
+    if (categoriesId.length > 0)
+      qb.where('id IN(:...categoriesId)', { categoriesId });
+
+    return qb.getMany();
   }
 
-  async findOne(id: string) {
-    return await this.eventRepository.findOne({ where: {} });
+  async findOne(eventId: string) {
+    return await this.eventRepository.findOne({ where: { eventId } });
   }
 
   async create(dto: CreateEventDto) {

@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Event } from './event.entity';
 
 @Entity()
 export class EventCategory {
@@ -21,4 +24,11 @@ export class EventCategory {
   createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => Event, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'event_id' })
+  event: Event;
 }

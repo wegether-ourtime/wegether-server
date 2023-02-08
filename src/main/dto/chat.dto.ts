@@ -7,6 +7,15 @@ export class ChatDto {
   chatId: string;
 
   @Expose()
+  senderId: string;
+  @Expose()
+  receiverId: string;
+  @Expose()
+  userFriendId: string;
+  @Expose()
+  eventId: string;
+
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;
@@ -23,5 +32,3 @@ export class UpdateChatDto extends PartialType(CreateChatDto) {
   @ApiProperty({ required: true })
   chatId: string;
 }
-
-export class QueryChatDto extends QueryDto {}

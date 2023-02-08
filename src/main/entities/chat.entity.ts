@@ -15,6 +15,8 @@ export class Chat {
   senderId: string;
   @Column({ name: 'receiver_id', nullable: true })
   receiverId: string;
+  @Column({ name: 'user_friend_id', nullable: true })
+  userFriendId: string;
   @Column({ name: 'event_id', nullable: true })
   eventId: string;
 

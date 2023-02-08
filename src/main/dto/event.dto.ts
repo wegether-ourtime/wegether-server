@@ -1,5 +1,10 @@
 import { Expose } from 'class-transformer';
-import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
+import {
+  ApiProperty,
+  ApiResponseProperty,
+  OmitType,
+  PartialType,
+} from '@nestjs/swagger';
 import { QueryDto } from 'src/common/app/query';
 import { EventStatus } from 'src/common/enums/event-status.enum';
 
@@ -18,8 +23,10 @@ export class EventDto {
   status: EventStatus;
 
   @Expose()
+  @ApiResponseProperty()
   createdAt: Date;
   @Expose()
+  @ApiResponseProperty()
   updatedAt: Date;
 }
 
@@ -35,4 +42,17 @@ export class UpdateEventDto extends PartialType(CreateEventDto) {
   eventId: string;
 }
 
-export class QueryEventDto extends QueryDto {}
+export class QueryEventDto extends QueryDto {
+  @Expose()
+  @ApiProperty({ required: false })
+  categoriesId: string[];
+  @Expose()
+  @ApiProperty({ required: false })
+  startDate: Date;
+  @Expose()
+  @ApiProperty({ required: false })
+  endDate: Date;
+  @Expose()
+  @ApiProperty({ required: false })
+  location: string;
+}

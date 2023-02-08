@@ -25,8 +25,8 @@ export class EventController {
   constructor(private eventService: EventService) {}
 
   @Get('')
-  getEvents(@Query() dto: QueryEventDto) {
-    return this.eventService.find();
+  getEvents(@Query() query: QueryEventDto) {
+    return this.eventService.find(query);
   }
 
   @Get('/:id')

@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
+  OneToMany,
 } from 'typeorm';
+import { EventCategory } from './event-category.entity';
 
 @Entity()
 export class Event {
@@ -23,4 +25,10 @@ export class Event {
   createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  // EventCategory
+  @OneToMany(() => EventCategory, (eventCategory) => eventCategory.event, {
+    cascade: true,
+  })
+  eventCategories: EventCategory[];
 }

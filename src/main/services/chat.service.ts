@@ -11,8 +11,18 @@ export class ChatService {
     private chatRepository: Repository<Chat>,
   ) {}
 
-  async find() {
-    return await this.chatRepository.find({ where: {} });
+  async findDirectMessage(userFriendId: string) {
+    return await this.chatRepository.find({
+      where: { userFriendId },
+      order: { createdAt: 'ASC' },
+    });
+  }
+
+  async findEventMessage(eventId: string) {
+    return await this.chatRepository.find({
+      where: { eventId },
+      order: { createdAt: 'ASC' },
+    });
   }
 
   async create(dto: CreateChatDto) {
@@ -26,8 +36,4 @@ export class ChatService {
   async delete(userId: string) {
     return await this.chatRepository.delete(userId);
   }
-
-  //   async findOne(){
-  //     return;
-  //   }
 }
