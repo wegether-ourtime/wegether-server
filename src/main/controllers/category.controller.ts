@@ -12,9 +12,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from '../services';
 
 @ApiTags('category')
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @Controller('category')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class CategoryController {

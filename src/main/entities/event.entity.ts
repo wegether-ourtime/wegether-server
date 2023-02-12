@@ -16,7 +16,7 @@ export class Event {
 
   @Column({ name: ' event_name' })
   eventName: string;
-  @Column({ name: ' eventDetail', nullable: true })
+  @Column({ name: ' event_detail', nullable: true })
   eventDetail: string;
   @Column({ name: 'status', default: EventStatus })
   status: EventStatus;
@@ -27,7 +27,7 @@ export class Event {
   updatedAt: Date;
 
   // EventCategory
-  @OneToMany(() => EventCategory, (eventCategory) => eventCategory.event, {
+  @OneToMany(() => EventCategory, (eventCategories) => eventCategories.event, {
     cascade: true,
   })
   eventCategories: EventCategory[];

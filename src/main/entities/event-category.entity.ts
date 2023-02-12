@@ -8,6 +8,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Category } from './category.entity';
 import { Event } from './event.entity';
 
 @Entity()
@@ -31,4 +32,10 @@ export class EventCategory {
   })
   @JoinColumn({ name: 'event_id' })
   event: Event;
+  @ManyToOne(() => Category, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }

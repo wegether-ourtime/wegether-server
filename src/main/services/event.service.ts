@@ -15,13 +15,13 @@ export class EventService {
     const { categoriesId } = query;
     const qb = this.eventRepository
       .createQueryBuilder('event')
-      .leftJoinAndSelect('event.eventCategory', 'eventCategory')
-      .leftJoinAndSelect('eventCategory.category', 'category');
+      .leftJoinAndSelect('event.eventCategories', 'eventCategories')
+    //   .leftJoinAndSelect('eventCategories.category', 'category');
 
-    if (categoriesId.length > 0)
-      qb.where('id IN(:...categoriesId)', { categoriesId });
+    // if (categoriesId?.length > 0)
+    //   qb.where('id IN(:...categoriesId)', { categoriesId });
 
-    return qb.getMany();
+    return await qb.getMany();
   }
 
   async findOne(eventId: string) {

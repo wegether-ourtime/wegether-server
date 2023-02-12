@@ -16,9 +16,9 @@ import { EventService } from '../services';
 import { CreateEventDto, QueryEventDto, UpdateEventDto } from '../dto';
 
 @ApiTags('event')
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @Controller('event')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class EventController {

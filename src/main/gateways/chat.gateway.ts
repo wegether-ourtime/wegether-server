@@ -31,7 +31,6 @@ export class ChatGateway
   }
 
   afterInit(server: Server) {
-    console.log(server);
     //Do stuffs
   }
 
