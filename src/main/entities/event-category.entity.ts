@@ -16,9 +16,9 @@ export class EventCategory {
   @PrimaryGeneratedColumn('uuid')
   eventCategoryId: string;
 
-  @Column({ name: ' event_id' })
+  @Column({ name: 'event_id' })
   eventId: string;
-  @Column({ name: ' category_id' })
+  @Column({ name: 'category_id' })
   categoryId: string;
 
   @CreateDateColumn({ name: 'created_at' })

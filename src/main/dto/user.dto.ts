@@ -7,6 +7,18 @@ export class UserDto {
   userId: string;
 
   @Expose()
+  email: string;
+  @Expose()
+  password: string;
+  @Expose()
+  fullName: string;
+
+  @Expose()
+  idNo: string;
+  @Expose()
+  telNo: string;
+
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;

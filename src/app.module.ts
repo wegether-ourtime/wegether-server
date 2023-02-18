@@ -4,6 +4,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import authConfig from 'src/config/auth.config';
 import dbConfig from 'src/config/db.config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import dbConfig from 'src/config/db.config';
       useFactory: (configService: ConfigService) =>
         configService.get<TypeOrmModuleOptions>('db'),
     }),
+    AuthModule,
     MainModule,
   ],
 })

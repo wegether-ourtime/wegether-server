@@ -14,9 +14,9 @@ export class Event {
   @PrimaryGeneratedColumn('uuid')
   eventId: string;
 
-  @Column({ name: ' event_name' })
+  @Column({ name: 'event_name' })
   eventName: string;
-  @Column({ name: ' event_detail', nullable: true })
+  @Column({ name: 'event_detail', nullable: true })
   eventDetail: string;
   @Column({ name: 'status', default: EventStatus })
   status: EventStatus;
