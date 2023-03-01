@@ -32,3 +32,12 @@ export class UpdateChatDto extends PartialType(CreateChatDto) {
   @ApiProperty({ required: true })
   chatId: string;
 }
+
+export class QueryChatDto extends QueryDto {
+  @Expose()
+  @ApiProperty({ required: true })
+  userId: string;
+  @Expose()
+  @ApiProperty({ required: false })
+  type: 'DM' | 'EM' = 'DM';
+}

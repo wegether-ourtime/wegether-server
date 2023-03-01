@@ -45,6 +45,9 @@ export class UpdateEventDto extends PartialType(CreateEventDto) {
 export class QueryEventDto extends QueryDto {
   @Expose()
   @ApiProperty({ required: false })
+  userId: string;
+  @Expose()
+  @ApiProperty({ required: false })
   categoriesId: string[];
   @Expose()
   @ApiProperty({ required: false })

@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { EventCategory } from './event-category.entity';
+import { UserEvent } from './user-event.entity';
 
 @Entity()
 export class Event {
@@ -20,6 +21,12 @@ export class Event {
   eventDetail: string;
   @Column({ name: 'status', default: EventStatus })
   status: EventStatus;
+  @Column({ name: 'max_participant', default: 2 })
+  maxParticipant: number;
+  @Column({ name: 'start_date', nullable: true })
+  startDate: Date;
+  @Column({ name: 'end_date', nullable: true })
+  endDate: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -31,4 +38,8 @@ export class Event {
     cascade: true,
   })
   eventCategories: EventCategory[];
+  @OneToMany(() => UserEvent, (userEvents) => userEvents.event, {
+    cascade: true,
+  })
+  userEvents: UserEvent[];
 }

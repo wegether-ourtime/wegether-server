@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateChatDto, UpdateChatDto } from '../dto';
+import { CreateChatDto, QueryChatDto, UpdateChatDto } from '../dto';
 import { Chat } from '../entities';
 
 @Injectable()
@@ -10,6 +10,11 @@ export class ChatService {
     @InjectRepository(Chat)
     private chatRepository: Repository<Chat>,
   ) {}
+
+  async findAll(query: QueryChatDto) {
+    let qb = this.chatRepository.createQueryBuilder('chat');
+    return await qb.getMany();
+  }
 
   async findDirectMessage(userFriendId: string) {
     return await this.chatRepository.find({
