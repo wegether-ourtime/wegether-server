@@ -6,3 +6,4 @@ export * from './event-category.dto';
 export * from './user-event.dto';
 export * from './user-category.dto';
 export * from './user-friend.dto';
+export * from './location.dto';

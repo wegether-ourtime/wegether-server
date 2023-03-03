@@ -29,7 +29,9 @@ export class EventService {
             .where(`event.eventName like :search`, {
               search: `%${search}%`,
             })
-            .orWhere(`event.eventDetail like :search`, { search: `%${search}%` })
+            .orWhere(`event.eventDetail like :search`, {
+              search: `%${search}%`,
+            }),
         ),
       );
     userId && qb.andWhere('userEvents.userId = :userId', { userId });

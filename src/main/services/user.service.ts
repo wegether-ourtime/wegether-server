@@ -23,7 +23,7 @@ export class UserService {
     return await this.userRepository.save(dto);
   }
 
-  async update(dto: UpdateUserDto) {
+  async update(userId: string, dto: UpdateUserDto) {
     return await this.userRepository.save(dto);
   }
 
