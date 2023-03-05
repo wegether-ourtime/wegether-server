@@ -12,17 +12,17 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserService } from 'src/main/services';
 import { CreateUserDto } from 'src/main/dto';
 import { AuthService } from './auth.service';
+import { LoginAuthDto } from './auth.dto';
 
 @ApiTags('auth')
 @Controller('auth')
-// @UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() dto: CreateUserDto) {
+  async login(@Body() dto: LoginAuthDto) {
     return await this.authService.login(dto);
   }
 

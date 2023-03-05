@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventType } from 'src/common/enums/event-type.enum';
 import { Brackets, Repository } from 'typeorm';
 import { CreateEventDto, QueryEventDto, UpdateEventDto } from '../dto';
 import { Event } from '../entities';
@@ -12,7 +13,7 @@ export class EventService {
   ) {}
 
   async find(query: QueryEventDto) {
-    const { userId, categoriesId, search } = query;
+    const { userId, categoriesId, search, eventType } = query;
     const qb = this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventCategories', 'eventCategories')
@@ -21,6 +22,20 @@ export class EventService {
 
     // if (categoriesId?.length > 0)
     //   qb.where('id IN(:...categoriesId)', { categoriesId });
+
+    if (eventType === EventType.SUGGESTION) {
+      qb.andWhere('userEvents.userId != :userId ', { userId });
+    } else if (eventType === EventType.INCOMING) {
+      qb.andWhere('userEvents.userId = :userId', { userId });
+    } else if (eventType === EventType.HOSTED) {
+      qb.andWhere('userEvents.userId = :userId', { userId }).andWhere(
+        'userEvents.isHost = true',
+      );
+    } else if (eventType === EventType.JOINED) {
+      qb.andWhere('userEvents.userId = :userId', { userId }).andWhere(
+        'userEvents.isHost = false',
+      );
+    }
 
     search &&
       qb.andWhere(

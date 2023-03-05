@@ -7,6 +7,16 @@ export class UserEventDto {
   userEventId: string;
 
   @Expose()
+  @ApiProperty({ required: true })
+  userId: string;
+  @Expose()
+  @ApiProperty({ required: true })
+  eventId: string;
+  @Expose()
+  @ApiProperty({ required: false })
+  isHost: boolean;
+
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;

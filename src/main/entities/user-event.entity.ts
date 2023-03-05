@@ -19,6 +19,8 @@ export class UserEvent {
   userId: string;
   @Column({ name: 'event_id' })
   eventId: string;
+  @Column({ name: 'is_host', default: false })
+  isHost: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

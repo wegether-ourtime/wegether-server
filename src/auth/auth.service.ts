@@ -20,6 +20,7 @@ export class AuthService {
       where: {
         email,
       },
+      relations: ['files'],
     });
 
     if (user && comparePassword(password, user.password)) {

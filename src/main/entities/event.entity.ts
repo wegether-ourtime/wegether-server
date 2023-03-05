@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { EventCategory } from './event-category.entity';
+import { File } from './file.entity';
 import { UserEvent } from './user-event.entity';
 
 @Entity()
@@ -42,4 +43,8 @@ export class Event {
     cascade: true,
   })
   userEvents: UserEvent[];
+  @OneToMany(() => File, (file) => file.event, {
+    cascade: true,
+  })
+  files: File[];
 }

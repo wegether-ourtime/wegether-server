@@ -8,6 +8,7 @@ import {
   UserController,
 } from './controllers';
 import { EventCategoryController } from './controllers/event-category.controller';
+import { FileController } from './controllers/file.controller';
 import { LocationController } from './controllers/location.controller';
 import { UserCategoryController } from './controllers/user-category.controller';
 import { UserEventController } from './controllers/user-event.controller';
@@ -22,6 +23,7 @@ import {
   UserEvent,
   UserFriend,
 } from './entities';
+import { File } from './entities/file.entity';
 import { ChatGateway } from './gateways';
 import {
   CategoryService,
@@ -32,6 +34,7 @@ import {
   UserEventService,
   UserService,
 } from './services';
+import { FileService } from './services/file.service';
 import { LocationService } from './services/location.service';
 import { UserFriendService } from './services/user-friend.service';
 
@@ -46,6 +49,7 @@ import { UserFriendService } from './services/user-friend.service';
       UserEvent,
       UserFriend,
       EventCategory,
+      File,
     ]),
     HttpModule,
   ],
@@ -59,6 +63,7 @@ import { UserFriendService } from './services/user-friend.service';
     UserFriendController,
     EventCategoryController,
     UserCategoryController,
+    FileController,
   ],
   providers: [
     ChatGateway,
@@ -72,6 +77,7 @@ import { UserFriendService } from './services/user-friend.service';
     UserFriendService,
     EventCategoryService,
     UserCategoryService,
+    FileService,
   ],
 })
 export class MainModule {}

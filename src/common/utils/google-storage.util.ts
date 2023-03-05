@@ -1,9 +1,9 @@
 import { Storage } from '@google-cloud/storage';
-import { join } from 'path';
+import { extname, join } from 'path';
+import 'dotenv/config';
 
-const bucketName = 'example-pncr-bucket';
+const bucketName = 'wegether_app';
 const baseUrl = `https://storage.googleapis.com`;
-
 const bucket = new Storage({
   projectId: process.env.GS_PROJECT_ID,
   credentials: {
@@ -11,6 +11,11 @@ const bucket = new Storage({
     private_key: process.env.GS_PRIVATE_KEY,
   },
 }).bucket(bucketName);
+
+export const editFileName = async (id: string, file) => {
+  const ext = extname(file?.originalname);
+  return id + ext;
+};
 
 export const upload = async (
   directory: string,
@@ -22,20 +27,13 @@ export const upload = async (
 ) => {
   const filePath = join(directory, image.name);
   const file = bucket.file(filePath);
-
   const options = metadata ? { metadata } : undefined;
 
   await file.save(image.buffer, options);
-  const uri = new URL(baseUrl);
-  if (baseUrl.endsWith(bucket.name)) {
-    uri.pathname = join(directory, image.name);
-  } else {
-    uri.pathname = join(bucket.name, directory, image.name);
-  }
+  const uri = await file.getSignedUrl({
+    action: 'read',
+    expires: Date.now() + 60 * 1000,
+  });
+
   return uri.toString();
 };
-
-//   async download(filePath: string) {
-//     const file = bucket.file(filePath);
-//     await file.download();
-//   }
