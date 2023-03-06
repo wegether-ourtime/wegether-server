@@ -16,7 +16,7 @@ export class UserService {
   }
 
   async findOne(userId: string) {
-    return await this.userRepository.findOne({ where: { userId } });
+    return await this.userRepository.findOne({ where: { userId }, relations: ['files'] });
   }
 
   async create(dto: CreateUserDto) {

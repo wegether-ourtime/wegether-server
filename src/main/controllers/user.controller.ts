@@ -29,10 +29,10 @@ export class UserController {
   //   return this.userService.find(query);
   // }
 
-  // @Get('/:id')
-  // getUser(@Param('id') id: string) {
-  //   return this.userService.findOne(id);
-  // }
+  @Get('/:id')
+  getUser(@Param('id') id: string) {
+    return this.userService.findOne(id);
+  }
 
   // @Post('')
   // createUser(@Body() dto: CreateUserDto) {

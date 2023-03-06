@@ -29,7 +29,7 @@ export class File {
   resource: string;
   @Column({ name: 'user_id', nullable: true })
   userId: string;
-  @Column({ name: 'farmer_id', nullable: true })
+  @Column({ name: 'event_id', nullable: true })
   eventId: string;
 
   @CreateDateColumn({ name: 'created_at' })

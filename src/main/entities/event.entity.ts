@@ -1,3 +1,4 @@
+import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
 import { EventStatus } from 'src/common/enums/event-status.enum';
 import {
   Entity,
@@ -28,6 +29,8 @@ export class Event {
   startDate: Date;
   @Column({ name: 'end_date', nullable: true })
   endDate: Date;
+  @Column({ name: 'location', nullable: true, type: 'jsonb' })
+  location: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -47,4 +50,6 @@ export class Event {
     cascade: true,
   })
   files: File[];
+
+  participant: number;
 }

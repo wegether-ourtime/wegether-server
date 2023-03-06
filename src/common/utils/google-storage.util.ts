@@ -32,7 +32,7 @@ export const upload = async (
   await file.save(image.buffer, options);
   const uri = await file.getSignedUrl({
     action: 'read',
-    expires: Date.now() + 60 * 1000,
+    expires: Date.now() + 365 * 24 * 60 * 60 * 1000,
   });
 
   return uri.toString();

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EventType } from 'src/common/enums/event-type.enum';
 import { Brackets, Repository } from 'typeorm';
 import { CreateEventDto, QueryEventDto, UpdateEventDto } from '../dto';
-import { Event } from '../entities';
+import { Event, UserEvent } from '../entities';
 
 @Injectable()
 export class EventService {
@@ -17,14 +17,17 @@ export class EventService {
     const qb = this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventCategories', 'eventCategories')
-      .leftJoinAndSelect('event.userEvents', 'userEvents');
+      .leftJoinAndSelect('event.userEvents', 'userEvents')
+      .leftJoinAndSelect('event.files', 'files');
     //   .leftJoinAndSelect('eventCategories.category', 'category');
 
     // if (categoriesId?.length > 0)
     //   qb.where('id IN(:...categoriesId)', { categoriesId });
 
     if (eventType === EventType.SUGGESTION) {
-      qb.andWhere('userEvents.userId != :userId ', { userId });
+      qb.andWhere('userEvents.userId = :userId ', {
+        userId,
+      }).loadRelationCountAndMap('event.participant', 'event.userEvents');
     } else if (eventType === EventType.INCOMING) {
       qb.andWhere('userEvents.userId = :userId', { userId });
     } else if (eventType === EventType.HOSTED) {
@@ -51,11 +54,23 @@ export class EventService {
       );
     userId && qb.andWhere('userEvents.userId = :userId', { userId });
 
-    return await qb.getMany();
+    return await qb.getMany().then((events) => {
+      if (eventType === EventType.SUGGESTION) {
+        return events.filter((e: Event) => e.maxParticipant > e.participant);
+      } else {
+        return events;
+      }
+    });
   }
 
   async findOne(eventId: string) {
-    return await this.eventRepository.findOne({ where: { eventId } });
+    return await this.eventRepository
+      .createQueryBuilder('event')
+      .where({ eventId })
+      .leftJoinAndSelect('event.eventCategories', 'eventCategories')
+      .leftJoinAndSelect('event.userEvents', 'userEvents')
+      .leftJoinAndSelect('event.files', 'files')
+      .getOneOrFail();
   }
 
   async create(dto: CreateEventDto) {
