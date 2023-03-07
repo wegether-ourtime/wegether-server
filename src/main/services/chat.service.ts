@@ -2,13 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChatDto, QueryChatDto, UpdateChatDto } from '../dto';
-import { Chat } from '../entities';
+import { Chat, Event, UserFriend } from '../entities';
 
 @Injectable()
 export class ChatService {
   constructor(
     @InjectRepository(Chat)
     private chatRepository: Repository<Chat>,
+    @InjectRepository(UserFriend)
+    private userFriendRepository: Repository<UserFriend>,
+    @InjectRepository(Event)
+    private eventRepository: Repository<Event>,
   ) {}
 
   async findAll(query: QueryChatDto) {
@@ -24,10 +28,11 @@ export class ChatService {
   }
 
   async findEventMessage(eventId: string) {
-    return await this.chatRepository.find({
-      where: { eventId },
-      order: { createdAt: 'ASC' },
+    let qb = this.chatRepository.createQueryBuilder('chat').where({
+      eventId,
     });
+
+    return await qb.getMany();
   }
 
   async create(dto: CreateChatDto) {
@@ -40,5 +45,32 @@ export class ChatService {
 
   async delete(userId: string) {
     return await this.chatRepository.delete(userId);
+  }
+
+  async findUserFriendChatList(userId: string) {
+    let qb = this.userFriendRepository
+      .createQueryBuilder('userFriend')
+      .where({
+        userId,
+      })
+      .leftJoinAndSelect('userFriend.chat', 'chat')
+      .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
+    // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
+
+    const result = await qb.getMany();
+    return result;
+  }
+
+  async findEventChatList(userId: string) {
+    let qb = this.eventRepository
+      .createQueryBuilder('event')
+      .leftJoinAndSelect('event.userEvents', 'userEvents')
+      .where('userEvents.userId = :userId', { userId })
+      .leftJoinAndSelect('event.chat', 'chat')
+      .loadRelationCountAndMap('event.chatCount', 'event.chat');
+    // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
+
+    const result = await qb.getMany();
+    return result;
   }
 }

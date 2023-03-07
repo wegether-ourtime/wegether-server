@@ -18,14 +18,16 @@ export class EventService {
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventCategories', 'eventCategories')
       .leftJoinAndSelect('event.userEvents', 'userEvents')
-      .leftJoinAndSelect('event.files', 'files');
+      .leftJoinAndSelect('event.files', 'files')
+      .leftJoinAndSelect('userEvents.user', 'user')
+      .leftJoinAndSelect('user.files', 'userFiles');
     //   .leftJoinAndSelect('eventCategories.category', 'category');
 
     // if (categoriesId?.length > 0)
     //   qb.where('id IN(:...categoriesId)', { categoriesId });
 
     if (eventType === EventType.SUGGESTION) {
-      qb.andWhere('userEvents.userId = :userId ', {
+      qb.andWhere('userEvents.userId != :userId ', {
         userId,
       }).loadRelationCountAndMap('event.participant', 'event.userEvents');
     } else if (eventType === EventType.INCOMING) {

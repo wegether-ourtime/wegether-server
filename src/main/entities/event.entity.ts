@@ -8,6 +8,7 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
+import { Chat } from './chat.entity';
 import { EventCategory } from './event-category.entity';
 import { File } from './file.entity';
 import { UserEvent } from './user-event.entity';
@@ -50,6 +51,11 @@ export class Event {
     cascade: true,
   })
   files: File[];
+  @OneToMany(() => Chat, (chat) => chat.event, {
+    cascade: true,
+  })
+  chat: Chat[];
 
   participant: number;
+  chatCount: number;
 }

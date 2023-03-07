@@ -7,7 +7,9 @@ import {
   JoinColumn,
   ManyToOne,
   Column,
+  OneToMany,
 } from 'typeorm';
+import { Chat } from './chat.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -33,4 +35,10 @@ export class UserFriend {
   @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'friend_id' })
   friend: User;
+  @OneToMany(() => Chat, (chat) => chat.userFriend, {
+    cascade: true,
+  })
+  chat: Chat[];
+
+  chatCount: number;
 }

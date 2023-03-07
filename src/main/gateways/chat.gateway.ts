@@ -10,7 +10,7 @@ import { ChatDto, CreateChatDto } from '../dto';
 import { ChatService } from '../services';
 
 @WebSocketGateway({
-  path: '/chat',
+  path: '/chat-gateway',
   cors: true,
 })
 export class ChatGateway

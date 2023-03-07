@@ -4,7 +4,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Event } from './event.entity';
+import { UserFriend } from './user-friend.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Chat {
@@ -27,4 +32,11 @@ export class Chat {
   createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => UserFriend, (userFriend) => userFriend.chat)
+  @JoinColumn({ name: 'user_friend_id' })
+  userFriend: UserFriend;
+  @ManyToOne(() => Event, (event) => event.chat)
+  @JoinColumn({ name: 'event_id' })
+  event: Event;
 }
