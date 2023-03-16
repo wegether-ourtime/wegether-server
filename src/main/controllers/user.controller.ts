@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -39,7 +40,7 @@ export class UserController {
   //   return this.userService.create(dto);
   // }
 
-  @Post('/:id')
+  @Patch('/:id')
   updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return this.userService.update(id, dto);
   }

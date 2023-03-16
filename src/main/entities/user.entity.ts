@@ -25,6 +25,11 @@ export class User {
   @Column({ name: 'tel_no' })
   telNo: string;
 
+  @Column({ name: 'bio', nullable: true })
+  bio: string;
+  @Column({ name: 'gender', nullable: true })
+  gender: string;
+
   @Column({ name: 'img_profile_url', nullable: true })
   imgProfileUrl: string;
   @Column({ name: 'img_cover_url', nullable: true })

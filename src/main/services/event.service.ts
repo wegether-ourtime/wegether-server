@@ -54,7 +54,7 @@ export class EventService {
             }),
         ),
       );
-    userId && qb.andWhere('userEvents.userId = :userId', { userId });
+    // userId && qb.andWhere('userEvents.userId = :userId', { userId });
 
     return await qb.getMany().then((events) => {
       if (eventType === EventType.SUGGESTION) {

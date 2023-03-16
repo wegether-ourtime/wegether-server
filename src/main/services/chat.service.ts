@@ -54,6 +54,8 @@ export class ChatService {
         userId,
       })
       .leftJoinAndSelect('userFriend.chat', 'chat')
+      .leftJoinAndSelect('userFriend.user', 'user')
+      .leftJoinAndSelect('user.files', 'userFiles')
       .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
     // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
 
@@ -65,6 +67,7 @@ export class ChatService {
     let qb = this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.userEvents', 'userEvents')
+      .leftJoinAndSelect('event.files', 'file')
       .where('userEvents.userId = :userId', { userId })
       .leftJoinAndSelect('event.chat', 'chat')
       .loadRelationCountAndMap('event.chatCount', 'event.chat');
