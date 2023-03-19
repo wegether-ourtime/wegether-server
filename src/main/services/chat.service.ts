@@ -21,18 +21,32 @@ export class ChatService {
   }
 
   async findDirectMessage(userFriendId: string) {
-    return await this.chatRepository.find({
-      where: { userFriendId },
-      order: { createdAt: 'ASC' },
-    });
+    return await this.chatRepository
+      .createQueryBuilder('chat')
+      .leftJoinAndSelect('chat.sender', 'sender')
+      .where({
+        userFriendId,
+      })
+      .orderBy('chat.createdAt', 'ASC')
+      .getMany();
+    // return await this.chatRepository.find({
+    //   where: { userFriendId },
+    //   order: { createdAt: 'ASC' },
+    // });
   }
 
   async findEventMessage(eventId: string) {
-    let qb = this.chatRepository.createQueryBuilder('chat').where({
-      eventId,
-    });
-
-    return await qb.getMany();
+    return await this.chatRepository
+      .createQueryBuilder('chat')
+      .leftJoinAndSelect('chat.event', 'event')
+      .leftJoinAndSelect('event.userEvents', 'userEvents')
+      .leftJoinAndSelect('userEvents.user', 'user')
+      .leftJoinAndSelect('user.files', 'files')
+      .where({
+        eventId,
+      })
+      .orderBy('chat.createdAt', 'ASC')
+      .getMany();
   }
 
   async create(dto: CreateChatDto) {

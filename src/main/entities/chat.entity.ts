@@ -1,3 +1,4 @@
+import { FileResource } from 'src/common/enums/file-resource.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +7,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  AfterLoad,
 } from 'typeorm';
 import { Event } from './event.entity';
 import { UserFriend } from './user-friend.entity';
@@ -39,4 +41,24 @@ export class Chat {
   @ManyToOne(() => Event, (event) => event.chats)
   @JoinColumn({ name: 'event_id' })
   event: Event;
+  // @ManyToOne(() => User, (sender) => sender.)
+  // @JoinColumn({ name: 'sender_id' })
+  // sender: User;
+
+  senderImg: string;
+
+  @AfterLoad()
+  getSenderImg() {
+    if (this.userFriendId) {
+      this.senderImg = this.userFriend?.user?.files?.find(
+        (f) => f.resource === FileResource.USER_PROFILE,
+      )?.path;
+    } else {
+      this.senderImg = this.event?.userEvents
+        ?.find((ue) => ue.userId === this.senderId)
+        .user.files?.find(
+          (f) => f.resource === FileResource.USER_PROFILE,
+        )?.path;
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { QueryDto } from 'src/common/app/query';
+import { EventDto } from './event.dto';
+import { UserFriendDto } from './user-friend.dto';
 
 export class ChatDto {
   @Expose()
@@ -14,6 +16,14 @@ export class ChatDto {
   userFriendId: string;
   @Expose()
   eventId: string;
+
+  @Expose()
+  userFriend: UserFriendDto;
+  @Expose()
+  event: EventDto;
+
+  @Expose()
+  senderImg: string;
 
   @Expose()
   createdAt: Date;

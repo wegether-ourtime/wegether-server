@@ -1,3 +1,4 @@
+import { FileResource } from 'src/common/enums/file-resource.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,6 +6,7 @@ import {
   UpdateDateColumn,
   Column,
   OneToMany,
+  AfterLoad,
 } from 'typeorm';
 import { File } from './file.entity';
 
@@ -44,4 +46,17 @@ export class User {
     cascade: true,
   })
   files: File[];
+
+  @AfterLoad()
+  getImgProfile() {
+    this.imgProfileUrl = this.files?.find(
+      (f) => f.resource === FileResource.USER_PROFILE,
+    )?.path;
+  }
+  @AfterLoad()
+  getImgCover() {
+    this.imgCoverUrl = this.files?.find(
+      (f) => f.resource === FileResource.USER_COVER,
+    )?.path;
+  }
 }
