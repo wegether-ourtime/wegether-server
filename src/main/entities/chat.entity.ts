@@ -33,10 +33,10 @@ export class Chat {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => UserFriend, (userFriend) => userFriend.chat)
+  @ManyToOne(() => UserFriend, (userFriend) => userFriend.chats)
   @JoinColumn({ name: 'user_friend_id' })
   userFriend: UserFriend;
-  @ManyToOne(() => Event, (event) => event.chat)
+  @ManyToOne(() => Event, (event) => event.chats)
   @JoinColumn({ name: 'event_id' })
   event: Event;
 }

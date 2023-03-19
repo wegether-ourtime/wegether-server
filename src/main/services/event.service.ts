@@ -21,15 +21,26 @@ export class EventService {
       .leftJoinAndSelect('event.files', 'files')
       .leftJoinAndSelect('userEvents.user', 'user')
       .leftJoinAndSelect('user.files', 'userFiles');
+    // .leftJoinAndSelect(
+    //   (q) =>
+    //     q
+    //       .select()
+    //       .from(UserEvent, 'userEvent')
+    //       .orderBy('userEvent.createdAt', 'ASC'),
+    //   'userFiles',
+    //   'userEvent.userId = user.userId',
+    // );
+
     //   .leftJoinAndSelect('eventCategories.category', 'category');
 
     // if (categoriesId?.length > 0)
     //   qb.where('id IN(:...categoriesId)', { categoriesId });
 
     if (eventType === EventType.SUGGESTION) {
-      qb.andWhere('userEvents.userId != :userId ', {
-        userId,
-      }).loadRelationCountAndMap('event.participant', 'event.userEvents');
+      // qb.andWhere('userEvents.userId != :userId', { userId })
+      // .andWhere(
+      //   'userEvents.isHost != false',
+      // );
     } else if (eventType === EventType.INCOMING) {
       qb.andWhere('userEvents.userId = :userId', { userId });
     } else if (eventType === EventType.HOSTED) {
@@ -58,7 +69,12 @@ export class EventService {
 
     return await qb.getMany().then((events) => {
       if (eventType === EventType.SUGGESTION) {
-        return events.filter((e: Event) => e.maxParticipant > e.participant);
+        console.log(events)
+        return events.filter(
+          (e: Event) =>
+            e.maxParticipant > e.participant &&
+            !e.userEvents.find((ue) => ue.userId === userId),
+        );
       } else {
         return events;
       }

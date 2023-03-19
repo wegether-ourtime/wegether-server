@@ -1,8 +1,10 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
+  Post,
   Query,
   UseGuards,
   UseInterceptors,
@@ -10,7 +12,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ChatService } from '../services/chat.service';
-import { QueryChatDto } from '../dto';
+import { CreateChatDto, QueryChatDto } from '../dto';
 
 @ApiTags('chat')
 // @ApiBearerAuth()
@@ -44,5 +46,10 @@ export class ChatController {
   @Get('/get-event-chat-list/:userId')
   getEventChatList(@Param('userId') userId: string) {
     return this.chatService.findEventChatList(userId);
+  }
+
+  @Post('')
+  createChat(@Body() dto: CreateChatDto) {
+    return this.chatService.create(dto);
   }
 }

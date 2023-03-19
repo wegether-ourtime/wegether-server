@@ -8,6 +8,7 @@ import {
   ManyToOne,
   Column,
   OneToMany,
+  AfterLoad,
 } from 'typeorm';
 import { Chat } from './chat.entity';
 import { User } from './user.entity';
@@ -38,7 +39,12 @@ export class UserFriend {
   @OneToMany(() => Chat, (chat) => chat.userFriend, {
     cascade: true,
   })
-  chat: Chat[];
+  chats: Chat[];
 
   chatCount: number;
+
+  @AfterLoad()
+  getChatCount() {
+    this.chatCount = this.chats?.length ?? 0;
+  }
 }

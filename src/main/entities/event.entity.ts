@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   Column,
   OneToMany,
+  AfterLoad,
 } from 'typeorm';
 import { Chat } from './chat.entity';
 import { EventCategory } from './event-category.entity';
@@ -57,8 +58,18 @@ export class Event {
   @OneToMany(() => Chat, (chat) => chat.event, {
     cascade: true,
   })
-  chat: Chat[];
+  chats: Chat[];
 
   participant: number;
   chatCount: number;
+
+  @AfterLoad()
+  getParticipantCount() {
+    this.participant = this.userEvents?.length ?? 0;
+  }
+
+  @AfterLoad()
+  getChatCount() {
+    this.chatCount = this.chats?.length ?? 0;
+  }
 }

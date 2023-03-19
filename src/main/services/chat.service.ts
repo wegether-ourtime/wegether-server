@@ -53,10 +53,10 @@ export class ChatService {
       .where({
         userId,
       })
-      .leftJoinAndSelect('userFriend.chat', 'chat')
+      .leftJoinAndSelect('userFriend.chats', 'chats')
       .leftJoinAndSelect('userFriend.user', 'user')
-      .leftJoinAndSelect('user.files', 'userFiles')
-      .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
+      .leftJoinAndSelect('user.files', 'userFiles');
+    // .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
     // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
 
     const result = await qb.getMany();
@@ -69,8 +69,8 @@ export class ChatService {
       .leftJoinAndSelect('event.userEvents', 'userEvents')
       .leftJoinAndSelect('event.files', 'file')
       .where('userEvents.userId = :userId', { userId })
-      .leftJoinAndSelect('event.chat', 'chat')
-      .loadRelationCountAndMap('event.chatCount', 'event.chat');
+      .leftJoinAndSelect('event.chats', 'chas');
+    // .loadRelationCountAndMap('event.chatCount', 'event.chats');
     // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
 
     const result = await qb.getMany();
