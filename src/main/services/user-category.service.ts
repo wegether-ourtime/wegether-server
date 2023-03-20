@@ -16,7 +16,13 @@ export class UserCategoryService {
   ) {}
 
   async find(query: QueryUserCategoryDto) {
-    return await this.userCategoryRepository.find({ where: {} });
+    const { userId, categoryId } = query;
+    return await this.userCategoryRepository.find({
+      where: {
+        ...(userId ? { userId } : {}),
+        ...(categoryId ? { categoryId } : {}),
+      },
+    });
   }
 
   async findOne(userCategoryId: string) {
@@ -29,8 +35,17 @@ export class UserCategoryService {
     return await this.userCategoryRepository.save(dto);
   }
 
-  async update(userCategoryId: string, dto: UpdateUserCategoryDto) {
-    return await this.userCategoryRepository.save(dto);
+  async update(dto: UpdateUserCategoryDto) {
+    const { userId, categoriesId } = dto;
+    await this.userCategoryRepository.delete({
+      userId,
+    });
+    categoriesId.forEach(async (c) => {
+      await this.userCategoryRepository.save({
+        userId,
+        categoryId: c,
+      });
+    });
   }
 
   async delete(userCategoryId: string) {

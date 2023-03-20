@@ -28,28 +28,25 @@ import {
 export class UserCategoryController {
   constructor(private userCategoryService: UserCategoryService) {}
 
-//   @Get('')
-//   getUserCategorys(@Query() query: QueryUserCategoryDto) {
-//     return this.userCategoryService.find(query);
-//   }
-
-//   @Get('/:id')
-//   getUserCategory(@Param('id') id: string) {
-//     return this.userCategoryService.findOne(id);
-//   }
-
-  @Post('')
-  createUserCategory(@Body() dto: CreateUserCategoryDto) {
-    return this.userCategoryService.create(dto);
+  @Get('')
+  getUserCategorys(@Query() query: QueryUserCategoryDto) {
+    return this.userCategoryService.find(query);
   }
 
-//   @Post('/:id')
-//   updateUserCategory(
-//     @Param('id') id: string,
-//     @Body() dto: UpdateUserCategoryDto,
-//   ) {
-//     return this.userCategoryService.update(id, dto);
-//   }
+  //   @Get('/:id')
+  //   getUserCategory(@Param('id') id: string) {
+  //     return this.userCategoryService.findOne(id);
+  //   }
+
+  // @Post('')
+  // createUserCategory(@Body() dto: CreateUserCategoryDto) {
+  //   return this.userCategoryService.create(dto);
+  // }
+
+  @Post('')
+  updateUserCategory(@Body() dto: UpdateUserCategoryDto) {
+    return this.userCategoryService.update(dto);
+  }
 
   @Delete('')
   deleteUserCategory(@Param('id') id: string) {

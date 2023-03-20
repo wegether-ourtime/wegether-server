@@ -19,15 +19,15 @@ export class ChatGateway
   constructor(private chatService: ChatService) {}
   // @WebSocketServer() server: Server;
 
-  @SubscribeMessage('sendMessage')
+  @SubscribeMessage('send-message')
   async handleSendMessage(client: Socket, dto: ChatDto) {
     const { receiverId, eventId } = dto;
     let channel: string;
     if (eventId) channel = `receive-event-message-${eventId}`;
-    else if (receiverId) channel = `receive-friend-message-${receiverId}`;
+    else if (receiverId) channel = `receive-direct-message-${receiverId}`;
 
     client.emit(channel, dto);
-    await this.chatService.create(dto);
+    return await this.chatService.create(dto);
   }
 
   afterInit(server: Server) {

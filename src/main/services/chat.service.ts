@@ -68,8 +68,8 @@ export class ChatService {
         userId,
       })
       .leftJoinAndSelect('userFriend.chats', 'chats')
-      .leftJoinAndSelect('userFriend.user', 'user')
-      .leftJoinAndSelect('user.files', 'userFiles');
+      .leftJoinAndSelect('userFriend.friend', 'friend')
+      .leftJoinAndSelect('friend.files', 'userFiles');
     // .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
     // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
 

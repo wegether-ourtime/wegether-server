@@ -7,6 +7,11 @@ export class UserCategoryDto {
   userCategoryId: string;
 
   @Expose()
+  userId: string;
+  @Expose()
+  categoryId: string;
+
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;
@@ -18,10 +23,17 @@ export class CreateUserCategoryDto extends OmitType(UserCategoryDto, [
   'updatedAt',
 ]) {}
 
-export class UpdateUserCategoryDto extends PartialType(CreateUserCategoryDto) {
+export class UpdateUserCategoryDto extends PartialType(
+  OmitType(CreateUserCategoryDto, ['categoryId']),
+) {
   @Expose()
   @ApiProperty({ required: true })
-  userCategoryId: string;
+  categoriesId: string[];
 }
 
-export class QueryUserCategoryDto extends QueryDto {}
+export class QueryUserCategoryDto extends QueryDto {
+  @Expose()
+  userId: string;
+  @Expose()
+  categoryId: string;
+}
