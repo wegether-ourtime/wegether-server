@@ -28,6 +28,9 @@ export class UserDto {
   bio: string;
   @Expose()
   gender: string;
+  @Expose()
+  @ApiProperty({ required: false })
+  livingPlace: string;
 
   @Expose()
   createdAt: Date;

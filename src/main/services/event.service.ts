@@ -34,7 +34,7 @@ export class EventService {
     //   .leftJoinAndSelect('eventCategories.category', 'category');
 
     // if (categoriesId?.length > 0)
-    //   qb.where('id IN(:...categoriesId)', { categoriesId });
+    //   qb.where('eventCategories.categoryId IN(:...categoriesId)', { categoriesId });
 
     if (eventType === EventType.SUGGESTION) {
       // qb.andWhere('userEvents.userId != :userId', { userId })
@@ -69,7 +69,6 @@ export class EventService {
 
     return await qb.getMany().then((events) => {
       if (eventType === EventType.SUGGESTION) {
-        console.log(events)
         return events.filter(
           (e: Event) =>
             e.maxParticipant > e.participant &&

@@ -31,6 +31,8 @@ export class User {
   bio: string;
   @Column({ name: 'gender', nullable: true })
   gender: string;
+  @Column({ name: 'location', nullable: true, type: 'jsonb' })
+  livingPlace: string;
 
   @Column({ name: 'img_profile_url', nullable: true })
   imgProfileUrl: string;
