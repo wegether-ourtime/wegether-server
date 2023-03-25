@@ -33,13 +33,16 @@ export class EventService {
 
     //   .leftJoinAndSelect('eventCategories.category', 'category');
 
-    // if (categoriesId?.length > 0)
-    //   qb.where('eventCategories.categoryId IN(:...categoriesId)', { categoriesId });
+    categoriesId?.length > 0 &&
+      qb.andWhere('eventCategories.categoryId IN(:...categoriesId)', {
+        categoriesId,
+      });
 
     if (eventType === EventType.SUGGESTION) {
-      // qb.andWhere('userEvents.userId != :userId', { userId })
+      qb.andWhere('event.hostId != :userId', { userId })
       // .andWhere(
-      //   'userEvents.isHost != false',
+      //   'userEvents.userId = :userId',
+      //   { userId },
       // );
     } else if (eventType === EventType.INCOMING) {
       qb.andWhere('userEvents.userId = :userId', { userId });
@@ -77,6 +80,7 @@ export class EventService {
       } else {
         return events;
       }
+      return events;
     });
   }
 

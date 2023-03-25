@@ -1,6 +1,7 @@
 import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
 import { CancelEventReason } from 'src/common/enums/cancel-event-reason.enum';
 import { EventStatus } from 'src/common/enums/event-status.enum';
+import { FileResource } from 'src/common/enums/file-resource.enum';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -26,6 +27,8 @@ export class Event {
   eventDetail: string;
   @Column({ name: 'status', default: EventStatus })
   status: EventStatus;
+  @Column({ name: 'host_id', nullable: true })
+  hostId: string;
   @Column({ name: 'cancel_event_reason', nullable: true })
   cancelEventReason: CancelEventReason;
   @Column({ name: 'max_participant', default: 2 })
@@ -62,6 +65,7 @@ export class Event {
 
   participant: number;
   chatCount: number;
+  imgUrl: string;
 
   @AfterLoad()
   getParticipantCount() {
@@ -71,5 +75,11 @@ export class Event {
   @AfterLoad()
   getChatCount() {
     this.chatCount = this.chats?.length ?? 0;
+  }
+  @AfterLoad()
+  getImgProfile() {
+    this.imgUrl = this.files?.find(
+      (f) => f.resource === FileResource.EVENT,
+    )?.path;
   }
 }

@@ -23,11 +23,13 @@ export class ChatService {
   async findDirectMessage(userFriendId: string) {
     return await this.chatRepository
       .createQueryBuilder('chat')
-      .leftJoinAndSelect('chat.sender', 'sender')
+      .leftJoinAndSelect('chat.userFriend', 'userFriend')
+      .leftJoinAndSelect('userFriend.user', 'user')
+      .leftJoinAndSelect('userFriend.friend', 'friend')
       .where({
         userFriendId,
       })
-      .orderBy('chat.createdAt', 'ASC')
+      .orderBy('chat.createdAt', 'DESC')
       .getMany();
     // return await this.chatRepository.find({
     //   where: { userFriendId },
@@ -45,7 +47,7 @@ export class ChatService {
       .where({
         eventId,
       })
-      .orderBy('chat.createdAt', 'ASC')
+      .orderBy('chat.createdAt', 'DESC')
       .getMany();
   }
 
