@@ -39,21 +39,28 @@ export class EventService {
       });
 
     if (eventType === EventType.SUGGESTION) {
-      qb.andWhere('event.hostId != :userId', { userId })
+      qb.andWhere('event.hostId != :userId', { userId }).addOrderBy(
+        'event.createdAt',
+        'DESC',
+      );
       // .andWhere(
       //   'userEvents.userId = :userId',
       //   { userId },
       // );
     } else if (eventType === EventType.INCOMING) {
-      qb.andWhere('userEvents.userId = :userId', { userId });
+      // qb.andWhere('userEvents.userId = :userId', { userId })
+      qb.andWhere('event.startDate >= :now', { now: new Date() }).addOrderBy(
+        'event.startDate',
+        'DESC',
+      );
     } else if (eventType === EventType.HOSTED) {
-      qb.andWhere('userEvents.userId = :userId', { userId }).andWhere(
-        'userEvents.isHost = true',
-      );
+      // qb.andWhere('userEvents.userId = :userId', { userId })
+      // qb.andWhere('userEvents.isHost = true')
+      qb.addOrderBy('event.createdAt', 'DESC');
     } else if (eventType === EventType.JOINED) {
-      qb.andWhere('userEvents.userId = :userId', { userId }).andWhere(
-        'userEvents.isHost = false',
-      );
+      // qb.andWhere('userEvents.userId = :userId', { userId })
+      //   .andWhere('userEvents.isHost = false')
+      qb.addOrderBy('event.updatedAt', 'DESC');
     }
 
     search &&
@@ -77,10 +84,21 @@ export class EventService {
             e.maxParticipant > e.participant &&
             !e.userEvents.find((ue) => ue.userId === userId),
         );
-      } else {
-        return events;
+      } else if (eventType === EventType.INCOMING) {
+        return events.filter((e: Event) =>
+          e.userEvents.find((ue) => ue.userId === userId),
+        );
+      } else if (eventType === EventType.JOINED) {
+        return events.filter((e: Event) =>
+          e.userEvents.find((ue) => ue.userId === userId && !ue.isHost),
+        );
+      } else if (eventType === EventType.HOSTED) {
+        return events.filter((e: Event) =>
+          e.userEvents.find((ue) => ue.userId === userId && ue.isHost),
+        );
       }
-      return events;
+      // if ()
+      // return events;
     });
   }
 
