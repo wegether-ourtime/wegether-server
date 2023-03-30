@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import {
   CreateUserEventDto,
   QueryUserEventDto,
@@ -15,9 +15,16 @@ export class UserEventService {
     private userEventRepository: Repository<UserEvent>,
   ) {}
 
-  //   async find(query: QueryUserEventDto) {
-  //     return await this.userEventRepository.find({ where: {} });
-  //   }
+  async find(query: QueryUserEventDto) {
+    const { userId, eventId } = query;
+    return await this.userEventRepository.find({
+      where: {
+        ...(eventId ? { eventId } : {}),
+        ...(userId ? { userId: Not(userId) } : {}),
+      },
+      relations: ['user', 'user.files'],
+    });
+  }
 
   //   async findOne(userEventId: string) {
   //     return await this.userEventRepository.findOne({ where: { userEventId } });

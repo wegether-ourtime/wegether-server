@@ -2,13 +2,15 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateUserEventDto } from '../dto';
+import { CreateUserEventDto, QueryUserEventDto } from '../dto';
 import { UserEventService } from '../services';
 
 @ApiTags('user-event')
@@ -19,6 +21,11 @@ import { UserEventService } from '../services';
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserEventController {
   constructor(private userEventService: UserEventService) {}
+
+  @Get()
+  getUserCategorys(@Query() query: QueryUserEventDto) {
+    return this.userEventService.find(query);
+  }
 
   @Post()
   createEvent(@Body() dto: CreateUserEventDto) {

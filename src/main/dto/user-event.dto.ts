@@ -34,4 +34,9 @@ export class UpdateUserEventDto extends PartialType(CreateUserEventDto) {
   userEventId: string;
 }
 
-export class QueryUserEventDto extends QueryDto {}
+export class QueryUserEventDto extends QueryDto {
+  @Expose()
+  userId: string;
+  @Expose()
+  eventId: string;
+}
