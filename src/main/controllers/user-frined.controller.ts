@@ -33,20 +33,25 @@ export class UserFriendController {
     return this.userFriendService.find(query);
   }
 
-//   @Get('/:id')
-//   getUserFriend(@Param('id') id: string) {
-//     return this.userFriendService.findOne(id);
-//   }
+  //   @Get('/:id')
+  //   getUserFriend(@Param('id') id: string) {
+  //     return this.userFriendService.findOne(id);
+  //   }
+
+  @Get('/get-friend-request/:userId')
+  getFriendRequest(@Param('userId') userId: string) {
+    return this.userFriendService.findFriendRequest(userId);
+  }
 
   @Post('')
   createUserFriend(@Body() dto: CreateUserFriendDto) {
     return this.userFriendService.create(dto);
   }
 
-//   @Post('/:id')
-//   updateUserFriend(@Param('id') id: string, @Body() dto: UpdateUserFriendDto) {
-//     return this.userFriendService.update(id, dto);
-//   }
+  //   @Post('/:id')
+  //   updateUserFriend(@Param('id') id: string, @Body() dto: UpdateUserFriendDto) {
+  //     return this.userFriendService.update(id, dto);
+  //   }
 
   @Delete('')
   deleteUserFriend(@Param('id') id: string) {

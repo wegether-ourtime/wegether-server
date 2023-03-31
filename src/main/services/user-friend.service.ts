@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserFriendStatus } from 'src/common/enums/user-friend-status.enum';
 import { Repository } from 'typeorm';
 import {
   CreateUserFriendDto,
@@ -33,5 +34,12 @@ export class UserFriendService {
 
   async delete(userFriendId: string) {
     return await this.userFriendRepository.delete(userFriendId);
+  }
+
+  async findFriendRequest(userId: string) {
+    return await this.userFriendRepository.find({
+      where: { friendId: userId, status: UserFriendStatus.PENDING },
+      relations: ['user', 'user.files']
+    });
   }
 }

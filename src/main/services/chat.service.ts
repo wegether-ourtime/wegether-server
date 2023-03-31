@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserFriendStatus } from 'src/common/enums/user-friend-status.enum';
 import { Repository } from 'typeorm';
 import { CreateChatDto, QueryChatDto, UpdateChatDto } from '../dto';
 import { Chat, Event, UserFriend } from '../entities';
@@ -68,6 +69,7 @@ export class ChatService {
       .createQueryBuilder('userFriend')
       .where({
         userId,
+        status: UserFriendStatus.SUCCESS
       })
       .leftJoinAndSelect('userFriend.chats', 'chats')
       .leftJoinAndSelect('userFriend.friend', 'friend')

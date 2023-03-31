@@ -39,10 +39,7 @@ export class EventService {
       });
 
     if (eventType === EventType.SUGGESTION) {
-      qb.andWhere('event.hostId != :userId', { userId }).addOrderBy(
-        'event.createdAt',
-        'DESC',
-      );
+      qb.addOrderBy('event.createdAt', 'DESC');
       // .andWhere(
       //   'userEvents.userId = :userId',
       //   { userId },
@@ -76,7 +73,7 @@ export class EventService {
         ),
       );
     // userId && qb.andWhere('userEvents.userId = :userId', { userId });
-
+    
     return await qb.getMany().then((events) => {
       if (eventType === EventType.SUGGESTION) {
         return events.filter(
