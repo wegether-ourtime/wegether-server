@@ -21,6 +21,8 @@ export class UserEvent {
   eventId: string;
   @Column({ name: 'is_host', default: false })
   isHost: boolean;
+  @Column({ name: 'actually_join', default: false })
+  actuallyJoin: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

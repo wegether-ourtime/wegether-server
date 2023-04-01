@@ -76,3 +76,12 @@ export class QueryEventDto extends QueryDto {
   @ApiProperty({ required: true, enum: EventType })
   eventType: EventType;
 }
+
+export class JoinEventDto {
+  @Expose()
+  @ApiProperty({ required: true })
+  userId: string;
+  @Expose()
+  @ApiProperty({ required: true })
+  code: string;
+}

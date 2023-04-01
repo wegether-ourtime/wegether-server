@@ -25,7 +25,7 @@ export class Event {
   eventName: string;
   @Column({ name: 'event_detail', nullable: true })
   eventDetail: string;
-  @Column({ name: 'status', default: EventStatus })
+  @Column({ name: 'status', default: EventStatus.OPEN })
   status: EventStatus;
   @Column({ name: 'host_id', nullable: true })
   hostId: string;
@@ -39,6 +39,11 @@ export class Event {
   endDate: Date;
   @Column({ name: 'location', nullable: true, type: 'jsonb' })
   location: string;
+  @Column({
+    name: 'code',
+    nullable: false,
+  })
+  code: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

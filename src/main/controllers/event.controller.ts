@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -13,7 +14,12 @@ import {
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { EventService } from '../services';
-import { CreateEventDto, QueryEventDto, UpdateEventDto } from '../dto';
+import {
+  CreateEventDto,
+  JoinEventDto,
+  QueryEventDto,
+  UpdateEventDto,
+} from '../dto';
 
 @ApiTags('event')
 // @ApiBearerAuth()
@@ -39,13 +45,19 @@ export class EventController {
     return this.eventService.create(dto);
   }
 
-  @Post('/:id')
+  @Patch('/:id')
   updateEvent(@Param('id') id: string, @Body() dto: UpdateEventDto) {
+    console.log('work')
     return this.eventService.update(id, dto);
   }
 
   @Delete('')
   deleteEvent(@Param('id') id: string) {
     return this.eventService.delete(id);
+  }
+
+  @Post('/join-event')
+  joinEvent(@Body() dto: JoinEventDto) {
+    return this.eventService.joinEvent(dto);
   }
 }
