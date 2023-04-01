@@ -39,7 +39,22 @@ export class UserFriendService {
   async findFriendRequest(userId: string) {
     return await this.userFriendRepository.find({
       where: { friendId: userId, status: UserFriendStatus.PENDING },
-      relations: ['user', 'user.files']
+      relations: ['user', 'user.files'],
     });
+  }
+
+  async findRelations(dto: QueryUserFriendDto) {
+    const { userId, friendId } = dto;
+    return await this.userFriendRepository
+      .createQueryBuilder('userFriend')
+      .where(
+        'userFriend.userId = :userId and userFriend.friendId = :friendId',
+        { userId, friendId },
+      )
+      .orWhere(
+        'userFriend.userId = :friendId and userFriend.friendId = :userId',
+        { userId, friendId },
+      )
+      .getOne();
   }
 }

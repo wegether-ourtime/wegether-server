@@ -7,6 +7,11 @@ export class UserFriendDto {
   userFriendId: string;
 
   @Expose()
+  userId: string;
+  @Expose()
+  friendId: string;
+
+  @Expose()
   createdAt: Date;
   @Expose()
   updatedAt: Date;
@@ -24,4 +29,9 @@ export class UpdateUserFriendDto extends PartialType(CreateUserFriendDto) {
   userFriendId: string;
 }
 
-export class QueryUserFriendDto extends QueryDto {}
+export class QueryUserFriendDto extends QueryDto {
+  @Expose()
+  userId: string;
+  @Expose()
+  friendId: string;
+}

@@ -27,6 +27,8 @@ export class ChatService {
       .leftJoinAndSelect('chat.userFriend', 'userFriend')
       .leftJoinAndSelect('userFriend.user', 'user')
       .leftJoinAndSelect('userFriend.friend', 'friend')
+      .leftJoinAndSelect('user.files', 'userFiles')
+      .leftJoinAndSelect('friend.files', 'friendFiles')
       .where({
         userFriendId,
       })
@@ -68,12 +70,20 @@ export class ChatService {
     let qb = this.userFriendRepository
       .createQueryBuilder('userFriend')
       .where({
-        userId,
-        status: UserFriendStatus.SUCCESS
+        // userId,
+        status: UserFriendStatus.SUCCESS,
       })
+      .andWhere(
+        'userFriend.userId = :userId or userFriend.friendId = :userId',
+        {
+          userId,
+        },
+      )
       .leftJoinAndSelect('userFriend.chats', 'chats')
+      .leftJoinAndSelect('userFriend.user', 'user')
       .leftJoinAndSelect('userFriend.friend', 'friend')
-      .leftJoinAndSelect('friend.files', 'userFiles');
+      .leftJoinAndSelect('user.files', 'userFiles')
+      .leftJoinAndSelect('friend.files', 'friendFiles');
     // .loadRelationCountAndMap('userFriend.chatCount', 'userFriend.chat');
     // .groupBy('userFriend.userFriendId, chat.uesrFriendId');
 
