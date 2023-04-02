@@ -20,7 +20,8 @@ export class EventService {
   ) {}
 
   async find(query: QueryEventDto) {
-    const { userId, categoriesId, search, eventType } = query;
+    const { userId, categoriesId, search, eventType, startDate, endDate } =
+      query;
     const qb = this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventCategories', 'eventCategories')
@@ -79,7 +80,9 @@ export class EventService {
             }),
         ),
       );
-    // userId && qb.andWhere('userEvents.userId = :userId', { userId });
+
+    startDate && qb.andWhere('event.startDate >= :startDate', { startDate });
+    endDate && qb.andWhere('event.endDate <= :endDate', { endDate });
 
     return await qb.getMany().then((events) => {
       if (eventType === EventType.SUGGESTION) {
@@ -93,8 +96,12 @@ export class EventService {
           e.userEvents.find((ue) => ue.userId === userId),
         );
       } else if (eventType === EventType.JOINED) {
-        return events.filter((e: Event) =>
-          e.userEvents.find((ue) => ue.userId === userId && !ue.isHost),
+        return events.filter(
+          (e: Event) =>
+            e.userEvents.find((ue) => ue.userId === userId && !ue.isHost),
+          // e.userEvents.find(
+          //   (ue) => ue.userId === userId && !ue.isHost && ue.actuallyJoin,
+          // ),
         );
       } else if (eventType === EventType.HOSTED) {
         return events.filter((e: Event) =>
@@ -146,7 +153,7 @@ export class EventService {
         },
       );
     }
-    
+
     return userEvent;
   }
 }

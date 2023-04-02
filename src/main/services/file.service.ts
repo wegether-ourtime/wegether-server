@@ -26,17 +26,46 @@ export class FileService {
       buffer,
       name: fileName,
     });
-
-    const created = await this.fileRepository.save({
-      fileName,
-      fileType: mimetype,
-      path: uri,
-      resource,
-      ...(resource == FileResource.EVENT
-        ? { eventId: resourceId }
-        : { userId: resourceId }),
+    let saved;
+    const existFile = await this.fileRepository.findOne({
+      where: {
+        resource,
+        ...(resource == FileResource.EVENT
+          ? { eventId: resourceId }
+          : { userId: resourceId }),
+      },
     });
 
-    return created;
+    if (existFile) {
+      saved = await this.fileRepository.update(
+        {
+          resource,
+          ...(resource == FileResource.EVENT
+            ? { eventId: resourceId }
+            : { userId: resourceId }),
+        },
+        {
+          fileName,
+          fileType: mimetype,
+          path: uri,
+          resource,
+          ...(resource == FileResource.EVENT
+            ? { eventId: resourceId }
+            : { userId: resourceId }),
+        },
+      );
+    } else {
+      saved = await this.fileRepository.save({
+        fileName,
+        fileType: mimetype,
+        path: uri,
+        resource,
+        ...(resource == FileResource.EVENT
+          ? { eventId: resourceId }
+          : { userId: resourceId }),
+      });
+    }
+
+    return saved;
   }
 }

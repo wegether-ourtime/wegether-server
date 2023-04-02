@@ -2,7 +2,9 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -23,12 +25,17 @@ export class UserEventController {
   constructor(private userEventService: UserEventService) {}
 
   @Get()
-  getUserCategorys(@Query() query: QueryUserEventDto) {
+  getUserEvents(@Query() query: QueryUserEventDto) {
     return this.userEventService.find(query);
   }
 
   @Post()
-  createEvent(@Body() dto: CreateUserEventDto) {
+  creatUserEvent(@Body() dto: CreateUserEventDto) {
     return this.userEventService.create(dto);
+  }
+
+  @Delete('/:id')
+  deleteUserEvent(@Param('id') id: string) {
+    return this.userEventService.delete(id);
   }
 }
