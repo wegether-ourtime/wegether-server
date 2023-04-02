@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Response } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -46,6 +46,8 @@ export class UserCategoryService {
         categoryId: c,
       });
     });
+
+    return 'success'
   }
 
   async delete(userCategoryId: string) {

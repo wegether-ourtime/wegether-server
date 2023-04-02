@@ -17,9 +17,9 @@ import { LocationService } from '../services/location.service';
 import { QueryPlaceDto } from '../dto/location.dto';
 
 @ApiTags('location')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('location')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class LocationController {

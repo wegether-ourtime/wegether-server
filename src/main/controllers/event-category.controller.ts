@@ -16,9 +16,9 @@ import { EventCategoryService } from '../services';
 import { CreateEventCategoryDto, QueryEventCategoryDto, UpdateEventCategoryDto } from '../dto';
 
 @ApiTags('event-category')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('event-category')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class EventCategoryController {

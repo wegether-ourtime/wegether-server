@@ -22,9 +22,9 @@ import {
 } from '../dto';
 
 @ApiTags('event')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('event')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class EventController {
@@ -47,7 +47,6 @@ export class EventController {
 
   @Patch('/:id')
   updateEvent(@Param('id') id: string, @Body() dto: UpdateEventDto) {
-    console.log('work')
     return this.eventService.update(id, dto);
   }
 

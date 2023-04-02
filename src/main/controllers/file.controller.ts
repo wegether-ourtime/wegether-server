@@ -9,6 +9,7 @@ import {
   Query,
   Res,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -19,6 +20,7 @@ import {
   ApiExtraModels,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { FileResource } from 'src/common/enums/file-resource.enum';
 import { DeleteFileDto, FileDto, UploadFileDto } from '../dto/file.dto';
 import { FileService } from '../services/file.service';
@@ -42,6 +44,7 @@ export const fileApiBodyOptions = {
 @ApiTags('file')
 @ApiBearerAuth()
 @Controller('file')
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class FileController {
   constructor(private fileService: FileService) {}

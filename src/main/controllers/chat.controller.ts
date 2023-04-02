@@ -15,9 +15,9 @@ import { ChatService } from '../services/chat.service';
 import { CreateChatDto, QueryChatDto } from '../dto';
 
 @ApiTags('chat')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('chat')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 //@UsePipes(SanitizePipe)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ChatController {
