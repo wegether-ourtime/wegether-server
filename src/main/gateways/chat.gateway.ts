@@ -21,13 +21,13 @@ export class ChatGateway
 
   @SubscribeMessage('send-message')
   async handleSendMessage(client: Socket, dto: ChatDto) {
-    const { receiverId, eventId } = dto;
+    const { senderId, userFriendId, eventId } = dto;
     let channel: string;
     if (eventId) channel = `receive-event-message-${eventId}`;
-    else if (receiverId) channel = `receive-direct-message-${receiverId}`;
+    else if (userFriendId) channel = `receive-direct-message-${userFriendId}`;
 
-    client.emit(channel, dto);
-    return await this.chatService.create(dto);
+    const data = this.chatService.create(dto);
+    client.emit(channel, data);
   }
 
   afterInit(server: Server) {
